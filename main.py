@@ -12,6 +12,10 @@ print(respons.json())
 app = Flask(__name__)
 app.secret_key = "sher"
 
+@app.route("/google7d1e8f356d6cefa8.html")
+def google_verification():
+    return send_file("google7d1e8f356d6cefa8.html")
+
 
 @app.route("/robots.txt")
 def robots():
