@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="/docs/5.0/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body dir="rtl">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul id="flashes" class="flashes">
+                {% for message in messages %}
+                <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+    <header class="container">
+            <img src="../static/image/car.png" alt="" class="car position-absolute">
+        <div class="position-relative text-center py-5">
+            <div>
+                <h4 class=" m-0">
+                    <p class=" ">توصيل أمن</p>
+                    <p class="text-warning ">في محافظة الحسكة</p>
+                </h4>
+                <small class="my-3 d-block">
+                    خدمة نقل آمنة وسريعة داخل القامشلي<br>
+                    وجميع مناطق محافظة الحسكة
+                </small>
+                <div class="row my-3">
+                    <small class="col-4 p-0 m-0 row text-warning">
+                        <i class="bi bi-speedometer2 fs-5 text-warning"></i>
+                        <span class="p-0 m-0">
+                        سرعة في الوصول
+                        </span>
+                    </small>
+                    <small class="col-4 p-0 m-0 row  text-warning">
+                        <i class="bi bi-clock-history fs-5 text-warning"></i>
+                        <span class="p-0 m-0">
+                        متوفر 24 ساعة
+                        </span>
+                    </small>
+                    <small class="col-4 p-0 m-0 row  text-warning">
+                        <i class="bi bi-shield-check fs-5 text-warning"></i>
+                        <span class="p-0 m-0">
+                        أمان تام
+                        </span>
+                    </small>
+                </div>
+                <a href="https://wa.me/14035889164?text=مرحباً،%20أرغب%20بحجز%20سيارة." target="_blank" class=" wahtBtn btn btn-success position-relative">
+    <i class="bi bi-whatsapp fs-5 col-2 p-0 m-0"></i> 
+    <span class="col-9 p-0 m-0"><b>
+         احجز عبر واتساب
+    </b></span>
+    <img src="../static/image/carBtn.png" alt="" class="carBtn position-absolute ">
+</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section id="services"  class="container">
+            <div class="title text-center d-flex align-items-center justify-content-center gap-3">
+                <span class="dots bg-warning "></span>
+                <h5>خدماتنا</h5>
+                <span class="dots bg-warning "></span>
+            </div>
+            <div class="serviceBox row p-0 m-0">
+                <div class="col-4 m-0 row text-center">
+                    <div>
+                        <i class="bi bi-signpost-fill fs-2 text-warning"></i>
+                        <small><b>إلى عامودا</b></small>
+                        <small class="service_desc">خدمة إلى عامودا والمناطق</small>
+                    </div>
+                </div>
+                <div class="col-4 m-0  row text-center">
+                    <div>
+                    <i class="bi bi-signpost-2-fill fs-2 text-warning"></i>
+                    <small><b>إلى الحسكة</b></small>
+                    <small class="service_desc">رحلات إلى مركز المحافظة</small>
+                    </div>
+                </div>
+                <div class="col-4 m-0  row text-center">
+                    <div>
+                    <i class="bi bi-geo-alt-fill fs-2 text-warning"></i>
+                    <small><b>داخل القامشلي</b></small>
+                    <small class="service_desc">تنقل داخل المدينة</small>
+                    </div>
+                </div>
+                <div class="col-4 m-0 row text-center">
+                    <div>
+                    <i class="bi bi-airplane-fill fs-2 text-warning"></i>
+                    <small><b>استقبال حسب الطلب</b></small>
+                    <small class="service_desc">من وإلى المطار</small>
+                    </div>
+                </div>
+                <div class="col-4 m-0text-center">
+                    <div>
+                    <i class="bi bi-people-fill fs-2 text-warning"></i>
+                    <small><b>رحلات خاصة</b></small>
+                    <small class="service_desc">للمناسبات والرحلات الخاصة</small>
+                    </div>
+                </div>
+                <div class="col-4 m-0 row text-center">
+                    <div>
+                    <i class="bi bi-buildings-fill fs-2 text-warning"></i>
+                    <small><b>إلى الدراسية</b></small>
+                    <small class="service_desc">رحلات إلى الدراسية</small>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <form action="/book" id="bookForm" class="my-5" method="post">
+                <h4 class="text-center text-light p-2 pb-4">أحجز طبلك</h4>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                    <input type="text" name="name" class="form-control" placeholder="الأسم" {% if message and message[0].strip()!=""%}  value="{{message[0]}}" {% endif %} >
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone"></i></span>
+                    <input type="tel" name="phone" class="form-control" placeholder="رقم الهاتف"   {% if message and message[1].strip()!=""%} value="{{message[1]}}" {% endif %}>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="input-group col">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-cursor"></i></span>
+                        <input type="text" name="fromPlace" class="form-control" placeholder="مكان الانطلاق"   {% if message and message[2].strip()!=""%} value="{{message[2]}}" {% endif %}>
+                    </div>
+                    <div class="input-group col">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt"></i></span>
+                        <input type="text" name="toPlace" class="form-control" placeholder="الوجهة"   {% if message and message[3].strip()!=""%} value="{{message[3]}}" {% endif %}>
+                    </div>
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
+                    <input type="datetime-local" name="day" class="form-control" placeholder="وقت الرحلة"   {% if message and message[4].strip()!=""%} value="{{message[4]}}" {% endif %}>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-pen"></i></span>
+                    <textarea type="text" name="note" class="form-control" placeholder="ملاحظات اضافية(اختياري)">  {% if message and message[5].strip()!=""%} {{message[5]}} {% endif %}</textarea> 
+                </div>
+                <button class="btn btn-warning col-12 bookBtn  position-relative"><i class="bi bi-send-fill text-dark"></i>
+                    <b class="col-9 p-0 m-0 text-dark">
+                    ارسال الطلب
+                    </b>
+                
+                <img src="../static/image/carBtn.png" alt="" class="carBtn position-absolute "></button>
+            </form>
+        </section>
+        <section>
+            <div class="whyUs">
+                <div class="title text-center d-flex align-items-center justify-content-center gap-3">
+                    <span class="dots bg-warning "></span>
+                    <h5>لماذا تختارنا؟</h5>
+                    <span class="dots bg-warning "></span>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col-6 col-md-3 col-lg-3 p-2 m-0 my-2">
+                        <div class="row p-0 m-0 text-center">
+                            <div class="iconBorder col-12 p-0">
+                                <i class="bi bi-person-fill  fs-2 text-warning"></i>
+                            </div>
+                            <small class="col-12 p-0"><b>سائقون محترفون</b></small>
+                            <small class="col-12 p-0">خبرة طويلة وخدمة احترافية</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3  col-lg-3  p-2 m-0 my-2">
+                        <div class="row p-0 m-0 text-center">
+                            <div class="iconBorder col-12 p-0">
+                                <i class="bi bi-car-front-fill fs-2 text-warning"></i>
+                            </div>
+                            <small class="col-12 p-0"><b>سيارات نظيفة</b></small>
+                            <small class="col-12 p-0">مريحة ونظيفة دائمًا</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-3 p-2 m-0 my-2">
+                        <div class="row p-0 m-0 text-center">
+                            <div class="iconBorder col-12 p-0">
+                                <i class="bi bi-clock-history fs-2 text-warning"></i>
+                            </div>
+                            <small class="col-12 p-0"><b>متوفر 24/7</b></small>
+                            <small class="col-12 p-0">في خدمتكم طوال اليوم</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-3 p-2 m-0 my-2">
+                        <div class="row p-0 m-0 text-center">
+                            <div class="iconBorder col-12 p-0">
+                                <i class="bi bi-shield-shaded fs-2 text-warning"></i>
+                            </div>
+                            <small class="col-12 p-0"><b>أمان وموثوقية</b></small>
+                            <small class="col-12 p-0">رحلتك بأمان من البداية حتى النهاية</small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section>
+            <div id="mapService" class="row ">
+                <div class="col-6 text-center">
+                    <h5>منطقة الخدمة</h5>
+                    <small>القامشلي وجميع مناطق محافظة الحسكة</small>
+                </div>
+                <div class="col-6">
+                    <img src="{{url_for('static', filename='image/mapService.png')}}" alt="map">
+                </div>
+            </div>
+        </section>
+        <section id="aboutUs">
+            <div class="row m-0 justify-content-center align-items-centerf">
+                <div class="col-6 mb-3">
+                    <h5><b>
+                        عن الخدمة
+                    </b></h5>
+                    <small>
+                       خدمة توصيل آمنة وسريعة داخل القامشلي
+                        وجميع مناطق محافظة الحسكة.
+                        نلتزم بالمواعيد وراحة العملاء.
+                        متوفرون لخدمتكم على مدار 24 ساعة.
+                    </small>
+                </div>
+                <div class="col-6 mb-3">
+                    <h5 class="mb-3">
+                        <b>تواصل معنا</b>
+                    </h5>
+                    <p><i class="bi bi-whatsapp"></i> +1 403 588 9164</p>
+                    <p><i class="bi bi-geo-alt text-warning"></i>القامشلي - محافظة الحسكة</p>
+                </div>
+                <div class="col-6 mb-3">
+                    <h5><b>تابعنا</b></h5>
+                    <div class="row m-0 align-items-center justify-content-center">
+                        <div class="p-0 m-0 col-3">
+                            <a href="https://wa.me/14035889164?text=مرحباً،%20أرغب%20بحجز%20سيارة." target="_blank" class=" text-success">
+                                <i class="bi bi-whatsapp fs-1"></i> 
+                            </a>
+                        </div>
+                         <div class="p-0 m-0 col-3">
+                            <a href="#">
+                                <i class="bi bi-facebook  fs-1" style="color:#0A65FE;"></i>
+                            </a>
+                        </div>
+                         <!-- <div class="p-0 m-0 col-3">
+                            <a href="#">
+                                <i class="bi bi-instagram fs-1 " style="color: #E35D6A;"></i>
+                            </a>
+                        </div> -->
+                         <div class="p-0 m-0 col-3">
+                            <a href="https://t.me/TaxiQamishli_bot?start=booking"  target="_blank">
+                                <i class="bi bi-telegram fs-1" style="color: #2EA6DA;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+<footer>
+    <div class="text-center">
+        <small>
+            © <span>2024</span> Aram Taxi | 
+            جميع الحقوق محفوظة
+        </small>
+    </div>
+</footer>
+
+<script>
+    {% if message %}
+    const message = {{message|tojson}};
+    for(i=0; i < message.length; i++){
+        if(message[i] == ""){
+            document.querySelectorAll("input")[i].focus();
+            break
+        }
+        
+    }
+    {% endif %}
+
+    if (document.getElementById("flashes")){
+        document.getElementById("flashes").style.right="0";
+        setTimeout(function(){
+document.getElementById("flashes").style.right="-100%";
+setTimeout(function(){
+document.getElementById("flashes").remove();
+}, 700)
+        }, 5000)
+    }
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="../static/js/js.js"></script>
+</body>
+</html>
