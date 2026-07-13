@@ -7,7 +7,7 @@ TOKEN = "8880623007:AAHhPs56Ldqvelf1gxlXp1RFQzDQO3mgzUQ"
 url_ = f"https://api.telegram.org/bot{TOKEN}/getUpdates"
 url_Send = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 respons = requests.get(url_)
-print(respons.json())
+
 
 app = Flask(__name__)
 app.secret_key = "sher"
@@ -53,13 +53,11 @@ def book():
         الوقت: {day}
         الملاحظات: {note}
     """
-    print(name)
+    
     response = requests.post(url = url_Send, data={
         "chat_id":8759699913,
         "text":message
     })
-    print(response.status_code)
-    print(response.json())
     flash("تم حجز موعدك. سيصل فريقنا باسرع وقت ممكن.\nشكرا لصبركم!")
     return redirect(url_for("home"))
 

@@ -24,7 +24,14 @@ content="خدمة تاكسي في القامشلي تعمل 24 ساعة. احج�
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body dir="rtl">
-
+<div id="sendingLoad">
+    <div class="box row">
+        <p class="col-12 text-center">انتظر قليلا<br>جاري التحميل...</p>
+        <div class="circle col-4" color_ ="red"></div>
+        <div class="circle col-4" color_ ="yellow"></div>
+        <div class="circle col-4" color_ ="green"></div>
+    </div>
+</div>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul id="flashes" class="flashes">
