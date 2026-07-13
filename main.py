@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for, redirect, request, flash
+from flask import Flask, render_template, url_for, redirect, request, flash,send_file
+
 
 import requests
 
@@ -10,6 +11,17 @@ print(respons.json())
 
 app = Flask(__name__)
 app.secret_key = "sher"
+
+
+@app.route("/robots.txt")
+def robots():
+    return send_file("robots.txt", mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_file("sitemap.xml", mimetype="application/xml")
+
 
 @app.route("/")
 def home(message = ""):
