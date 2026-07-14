@@ -289,13 +289,16 @@ content="احجز تاكسي في القامشلي بسهولة. خدمة سري
 <footer>
     <div class="text-center">
         <small>
-            © <span>2024</span>  
+            © <span id="year">2024</span>  
             جميع الحقوق محفوظة
         </small>
     </div>
 </footer>
 
 <script>
+    var year = document.getElementById("year");
+    var currentYear = new Date().getFullYear()
+    year.textContent =currentYear
     {% if message %}
     const message = {{message|tojson}};
     for(i=0; i < message.length; i++){
