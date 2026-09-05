@@ -48,7 +48,6 @@ header{
     background-image: url( "../image/originalCover.png");
 
     background-size: 150% 150%;
-    
     background-repeat: no-repeat;
     background-position:100%;
     color: white;
@@ -293,6 +292,89 @@ form{
     background-color: #0A0F19;
     border-radius: 10px;
 }
+.booking-map-section{
+    color: white;
+}
+.booking-unavailable{
+    color: #ffb4a9;
+    border: 1px solid #8d3b35;
+    border-radius: 7px;
+    padding: 9px;
+    font-size: 12px;
+}
+.map-instructions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.location-mode{
+    display: flex;
+    border: 1px solid #2f3138;
+    border-radius: 7px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.location-mode-button{
+    color: white;
+    border: 0;
+    border-radius: 0;
+    font-size: 11px;
+}
+.location-mode-button.active{
+    background-color: #FFC107;
+    color: #0A0F19;
+}
+#bookingMap{
+    height: 300px;
+    width: 100%;
+    border: 1px solid #2f3138;
+    border-radius: 7px;
+    overflow: hidden;
+    direction: ltr;
+}
+.map-status, .map-error{
+    font-size: 11px;
+    margin: 8px 0 0;
+}
+.map-status{
+    color: #ffe699;
+}
+.map-error{
+    color: #ffb4a9;
+}
+.booking-summary{
+    border: 1px solid #2f3138;
+    border-right: 3px solid #FFC107;
+    border-radius: 7px;
+    color: white;
+    padding: 10px;
+    margin-bottom: 16px;
+    font-size: 12px;
+}
+.booking-summary h6{
+    color: #ffe699;
+    margin-bottom: 8px;
+}
+.booking-summary p{
+    margin: 3px 0;
+}
+.map-marker{
+    width: 22px;
+    height: 22px;
+    border: 3px solid white;
+    border-radius: 50% 50% 50% 0;
+    box-shadow: 0 1px 4px #000;
+    transform: rotate(-45deg);
+}
+.map-marker.pickup{
+    background-color: #198754;
+}
+.map-marker.destination{
+    background-color: #dc3545;
+}
 .input-group-text{
     border-radius: 0 7px 7px 0  !important;
     background-color: transparent;
@@ -439,6 +521,15 @@ ul.flashes {
 }
  }
 
+@media (max-width: 575.98px) {
+    .map-instructions{
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    #bookingMap{
+        height: 240px;
+    }
+}
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
       body{

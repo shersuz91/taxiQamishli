@@ -1,0 +1,15 @@
+{% extends "admin_base.html" %}
+{% block title %}الإعدادات العامة | تاكسي أمان{% endblock %}
+{% block content %}
+<header class="admin-header"><div><p class="eyebrow">إعدادات الأعمال</p><h1>الإعدادات العامة</h1></div></header>
+<form method="post" class="admin-form admin-section settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label class="toggle-row" for="bookings_enabled"><span><b>قبول الحجوزات</b><small>عند الإيقاف، يرفض الخادم جميع طلبات الحجز الجديدة.</small></span><input id="bookings_enabled" name="bookings_enabled" type="checkbox" {% if settings.bookings_enabled %}checked{% endif %}></label>
+    <label class="toggle-row" for="service_hours_enabled"><span><b>تقييد ساعات الخدمة</b><small>اسمح بالحجز خلال الفترة المحددة فقط.</small></span><input id="service_hours_enabled" name="service_hours_enabled" type="checkbox" {% if settings.service_hours_enabled %}checked{% endif %}></label>
+    <div class="form-grid">
+        <div><label for="service_start_time">بداية الخدمة</label><input id="service_start_time" name="service_start_time" type="time" value="{{ settings.service_start_time.strftime('%H:%M') if settings.service_start_time else '' }}"></div>
+        <div><label for="service_end_time">نهاية الخدمة</label><input id="service_end_time" name="service_end_time" type="time" value="{{ settings.service_end_time.strftime('%H:%M') if settings.service_end_time else '' }}"></div>
+    </div>
+    <button type="submit" class="admin-primary">حفظ الإعدادات</button>
+</form>
+{% endblock %}

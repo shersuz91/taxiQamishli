@@ -20,8 +20,8 @@ content="احجز تاكسي في القامشلي بسهولة. خدمة سري
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_SY">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="/docs/5.0/assets/css/docs.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
@@ -139,7 +139,11 @@ content="احجز تاكسي في القامشلي بسهولة. خدمة سري
             </div>
             
             <form action="/book" id="bookForm" class="my-5" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                 <h4 class="text-center text-light p-2 pb-4">أحجز طبلك</h4>
+                {% if not booking_enabled %}
+                <p class="booking-unavailable" role="alert">{{ availability_message }}</p>
+                {% endif %}
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
                     <input type="text" name="name" class="form-control" placeholder="الأسم" {% if message and message[0].strip()!=""%}  value="{{message[0]}}" {% endif %} >
@@ -150,15 +154,44 @@ content="احجز تاكسي في القامشلي بسهولة. خدمة سري
                     <input type="tel" name="phone" class="form-control" placeholder="رقم الهاتف"   {% if message and message[1].strip()!=""%} value="{{message[1]}}" {% endif %}>
                 </div>
 
+                <div class="booking-map-section mb-3">
+                    <div class="map-instructions">
+                        <span>اختر نقطة الانطلاق ثم الوجهة من الخريطة</span>
+                        <div class="location-mode" role="group" aria-label="نوع الموقع الذي سيتم اختياره">
+                            <button type="button" class="btn btn-sm location-mode-button active" data-location-mode="pickup">نقطة الانطلاق</button>
+                            <button type="button" class="btn btn-sm location-mode-button" data-location-mode="destination">الوجهة</button>
+                        </div>
+                    </div>
+                    <div id="bookingMap" aria-label="خريطة اختيار نقطة الانطلاق والوجهة" data-bookings-enabled="{{ booking_enabled|tojson }}" data-service-latitude="{{ service_area.center_latitude }}" data-service-longitude="{{ service_area.center_longitude }}" data-service-radius="{{ service_area.radius_km }}"></div>
+                    <p id="mapStatus" class="map-status" role="status">اضغط على الخريطة لتحديد نقطة الانطلاق.</p>
+                    <div id="mapError" class="map-error d-none" role="alert"></div>
+                </div>
+
                 <div class="row mb-3">
                     <div class="input-group col">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-cursor"></i></span>
-                        <input type="text" name="fromPlace" class="form-control" placeholder="مكان الانطلاق"   {% if message and message[2].strip()!=""%} value="{{message[2]}}" {% endif %}>
+                        <input type="text" name="fromPlace" id="fromPlace" class="form-control" placeholder="نقطة الانطلاق من الخريطة" readonly required {% if message and message[2].strip()!=""%} value="{{message[2]}}" {% endif %}>
                     </div>
                     <div class="input-group col">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt"></i></span>
-                        <input type="text" name="toPlace" class="form-control" placeholder="الوجهة"   {% if message and message[3].strip()!=""%} value="{{message[3]}}" {% endif %}>
+                        <input type="text" name="toPlace" id="toPlace" class="form-control" placeholder="الوجهة من الخريطة" readonly required {% if message and message[3].strip()!=""%} value="{{message[3]}}" {% endif %}>
                     </div>
+                </div>
+                <input type="hidden" name="pickup_latitude" id="pickupLatitude">
+                <input type="hidden" name="pickup_longitude" id="pickupLongitude">
+                <input type="hidden" name="destination_latitude" id="destinationLatitude">
+                <input type="hidden" name="destination_longitude" id="destinationLongitude">
+                <input type="hidden" name="distance_km" id="distanceKm">
+                <input type="hidden" name="estimated_time" id="estimatedTime">
+                <input type="hidden" name="estimated_fare" id="estimatedFare">
+
+                <div id="bookingSummary" class="booking-summary d-none" aria-live="polite">
+                    <h6>ملخص الرحلة</h6>
+                    <p><strong>الانطلاق:</strong> <span id="summaryPickup">-</span></p>
+                    <p><strong>الوجهة:</strong> <span id="summaryDestination">-</span></p>
+                    <p><strong>المسافة:</strong> <span id="summaryDistance">-</span></p>
+                    <p><strong>الوقت التقديري:</strong> <span id="summaryTime">-</span></p>
+                    <p><strong>الأجرة التقديرية:</strong> <span id="summaryFare">-</span></p>
                 </div>
 
 
@@ -171,7 +204,7 @@ content="احجز تاكسي في القامشلي بسهولة. خدمة سري
                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-pen"></i></span>
                     <textarea type="text" name="note" class="form-control" placeholder="ملاحظات اضافية(اختياري)">  {% if message and message[5].strip()!=""%} {{message[5]}} {% endif %}</textarea> 
                 </div>
-                <button class="btn btn-warning col-12 bookBtn  position-relative"><i class="bi bi-send-fill text-dark"></i>
+                <button class="btn btn-warning col-12 bookBtn  position-relative" {% if not booking_enabled %}disabled{% endif %}><i class="bi bi-send-fill text-dark"></i>
                     <b class="col-9 p-0 m-0 text-dark">
                     ارسال الطلب
                     </b>
@@ -303,7 +336,7 @@ content="احجز تاكسي في القامشلي بسهولة. خدمة سري
     const message = {{message|tojson}};
     for(i=0; i < message.length; i++){
         if(message[i] == ""){
-            document.querySelectorAll("input")[i].focus();
+            document.querySelectorAll("#bookForm input:not([type='hidden'])")[i].focus();
             break
         }
         
@@ -321,6 +354,7 @@ document.getElementById("flashes").remove();
     }
 </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin=""></script>
     <script src="../static/js/js.js"></script>
 </body>
 </html>

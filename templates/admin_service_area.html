@@ -1,0 +1,16 @@
+{% extends "admin_base.html" %}
+{% block title %}منطقة الخدمة | تاكسي أمان{% endblock %}
+{% block content %}
+<header class="admin-header"><div><p class="eyebrow">إعدادات الأعمال</p><h1>منطقة الخدمة</h1><p class="muted">تتحقق المنصة من وجود نقطة الانطلاق داخل هذه الدائرة قبل قبول الحجز.</p></div></header>
+<form method="post" class="admin-form admin-section settings-form" id="serviceAreaForm">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <div id="serviceAreaMap" data-latitude="{{ settings.service_center_latitude }}" data-longitude="{{ settings.service_center_longitude }}" data-radius="{{ settings.service_radius_km }}"></div>
+    <div class="form-grid">
+        <div><label for="service_center_latitude">خط عرض المركز</label><input id="service_center_latitude" name="service_center_latitude" type="number" min="-90" max="90" step="0.000001" value="{{ settings.service_center_latitude }}" required></div>
+        <div><label for="service_center_longitude">خط طول المركز</label><input id="service_center_longitude" name="service_center_longitude" type="number" min="-180" max="180" step="0.000001" value="{{ settings.service_center_longitude }}" required></div>
+    </div>
+    <label for="service_radius_km">نصف القطر (كم)</label>
+    <input id="service_radius_km" name="service_radius_km" type="number" min="0.1" step="0.1" value="{{ settings.service_radius_km }}" required>
+    <button type="submit" class="admin-primary">حفظ منطقة الخدمة</button>
+</form>
+{% endblock %}

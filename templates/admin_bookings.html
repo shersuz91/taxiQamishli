@@ -1,0 +1,15 @@
+{% extends "admin_base.html" %}
+{% block title %}الحجوزات | تاكسي أمان{% endblock %}
+{% block content %}
+<header class="admin-header"><div><p class="eyebrow">إدارة العمليات</p><h1>الحجوزات</h1></div></header>
+<section class="admin-section table-section">
+    {% if bookings %}
+    <div class="table-responsive"><table class="bookings-table"><thead><tr><th>#</th><th>العميل</th><th>الانطلاق</th><th>الوجهة</th><th>المسافة</th><th>الأجرة</th><th>موعد الرحلة</th><th>الحالة</th></tr></thead><tbody>
+    {% for booking in bookings %}<tr>
+        <td>{{ booking.id }}</td><td>{{ booking.customer_name }}<small>{{ booking.phone }}</small></td><td>{{ booking.pickup_address }}</td><td>{{ booking.destination_address }}</td><td>{{ '%.1f'|format(booking.distance_km) }} كم<small>{{ booking.estimated_minutes }} دقيقة</small></td><td>{{ '%.2f'|format(booking.estimated_fare) }} ل.س</td><td>{{ booking.requested_for }}<small>{{ booking.created_at.strftime('%Y-%m-%d %H:%M') }}</small></td>
+        <td><form method="post" action="{{ url_for('update_booking_status', booking_id=booking.id) }}" class="status-form"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><select name="status" aria-label="حالة الحجز {{ booking.id }}">{% for status in statuses %}<option value="{{ status }}" {% if booking.status == status %}selected{% endif %}>{{ {'pending':'قيد الانتظار', 'confirmed':'مؤكد', 'completed':'مكتمل', 'cancelled':'ملغي'}[status] }}</option>{% endfor %}</select><button type="submit">حفظ</button></form></td>
+    </tr>{% endfor %}
+    </tbody></table></div>
+    {% else %}<p class="muted">لا توجد حجوزات محفوظة حتى الآن.</p>{% endif %}
+</section>
+{% endblock %}

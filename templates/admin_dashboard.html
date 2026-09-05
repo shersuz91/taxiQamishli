@@ -1,0 +1,29 @@
+{% extends "admin_base.html" %}
+{% block title %}لوحة التحكم | تاكسي أمان{% endblock %}
+{% block content %}
+<header class="admin-header">
+    <div><p class="eyebrow">مرحباً {{ current_user.username }}</p><h1>لوحة التحكم</h1></div>
+    <span class="status-badge {{ 'open' if settings.bookings_enabled else 'closed' }}">{{ 'الحجوزات مفتوحة' if settings.bookings_enabled else 'الحجوزات مغلقة' }}</span>
+</header>
+<section class="stats-grid">
+    <article><span>حجوزات اليوم</span><strong>{{ stats.today }}</strong></article>
+    <article><span>قيد الانتظار</span><strong>{{ stats.pending }}</strong></article>
+    <article><span>مكتملة</span><strong>{{ stats.completed }}</strong></article>
+    <article><span>إيراد اليوم التقديري</span><strong>{{ '%.2f'|format(stats.revenue) }} ل.س</strong></article>
+</section>
+<section class="admin-section settings-overview">
+    <div><h2>إعدادات التاكسي</h2><a href="{{ url_for('admin_pricing') }}">تعديل التسعير</a></div>
+    <dl>
+        <div><dt>الأجرة الأساسية</dt><dd>{{ '%.2f'|format(settings.base_fare) }} ل.س</dd></div>
+        <div><dt>السعر لكل كم</dt><dd>{{ '%.2f'|format(settings.price_per_km) }} ل.س</dd></div>
+        <div><dt>الحد الأدنى</dt><dd>{{ '%.2f'|format(settings.minimum_fare) }} ل.س</dd></div>
+        <div><dt>نطاق الخدمة</dt><dd>{{ '%.1f'|format(settings.service_radius_km) }} كم</dd></div>
+    </dl>
+</section>
+<section class="admin-section">
+    <h2>آخر تغييرات الإعدادات</h2>
+    {% if audits %}
+    <div class="audit-list">{% for audit in audits %}<p><b>{{ audit.setting_name }}</b>: {{ audit.old_value }} ← {{ audit.new_value }} <small>{{ audit.changed_at.strftime('%Y-%m-%d %H:%M') }}</small></p>{% endfor %}</div>
+    {% else %}<p class="muted">لا توجد تغييرات مسجلة بعد.</p>{% endif %}
+</section>
+{% endblock %}
