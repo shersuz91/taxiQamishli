@@ -1,360 +1,53 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
+    <div>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-content="خدمة تاكسي في القامشلي تعمل 24 ساعة. احجز سيارتك بسهولة عبر الموقع أو واتساب أو تيليجرام.">
-    <title>تاكسي أمان | Taxi Aman | خدمة تاكسي في القامشلي 24 ساعة</title>
-
-<meta name="description"
-content="احجز تاكسي في القامشلي بسهولة. خدمة سريعة وآمنة على مدار 24 ساعة داخل القامشلي وجميع مناطق محافظة الحسكة.">
-
-<meta name="robots" content="index,follow">
-
-<link rel="canonical" href="https://taxiaman.com">
-
-<meta property="og:title" content="تاكسي أمان | Taxi Aman">
-<meta property="og:description" content="احجز رحلتك في القامشلي خلال دقائق مع خدمة تاكسي آمنة وسريعة تعمل 24 ساعة.">
-<meta property="og:url" content="https://taxiaman.com">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ar_SY">
+    <meta name="description" content="احجز تاكسي في القامشلي بسهولة وأمان.">
+    <title>تاكسي أمان | حجز رحلة</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/booking-map.css') }}">
 </head>
-<body dir="rtl">
-<div id="sendingLoad">
-    <div class="box row">
-        <p class="col-12 text-center">انتظر قليلا<br>جاري التحميل...</p>
-        <div class="circle col-4" color_ ="red"></div>
-        <div class="circle col-4" color_ ="yellow"></div>
-        <div class="circle col-4" color_ ="green"></div>
-    </div>
-</div>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul id="flashes" class="flashes">
-                {% for message in messages %}
-                <li>{{message}}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        {% endwith %}
-    <header class="container">
-            <img src="../static/image/car.png" alt="" class="car position-absolute">
-        <div class="position-relative text-center py-5">
-            <div>
-                <h4 class=" m-0">
-                    <p class=" ">توصيل أمن</p>
-                    <p class="text-warning ">في محافظة الحسكة</p>
-                </h4>
-                <small class="my-3 d-block">
-                    خدمة نقل آمنة وسريعة داخل القامشلي<br>
-                    وجميع مناطق محافظة الحسكة
-                </small>
-                <div class="row my-3">
-                    <small class="col-4 p-0 m-0 row text-warning">
-                        <i class="bi bi-speedometer2 fs-5 text-warning"></i>
-                        <span class="p-0 m-0">
-                        سرعة في الوصول
-                        </span>
-                    </small>
-                    <small class="col-4 p-0 m-0 row  text-warning">
-                        <i class="bi bi-clock-history fs-5 text-warning"></i>
-                        <span class="p-0 m-0">
-                        متوفر 24 ساعة
-                        </span>
-                    </small>
-                    <small class="col-4 p-0 m-0 row  text-warning">
-                        <i class="bi bi-shield-check fs-5 text-warning"></i>
-                        <span class="p-0 m-0">
-                        أمان تام
-                        </span>
-                    </small>
-                </div>
-                <a href="https://wa.me/14035889164?text=مرحباً،%20أرغب%20بحجز%20سيارة." target="_blank" class=" wahtBtn btn btn-success position-relative">
-    <i class="bi bi-whatsapp fs-5 col-2 p-0 m-0"></i> 
-    <span class="col-9 p-0 m-0"><b>
-         احجز عبر واتساب
-    </b></span>
-    <img src="../static/image/carBtn.png" alt="" class="carBtn position-absolute ">
-</a>
-            </div>
-        </div>
-    </header>
-    <main>
-        <section id="services"  class="container">
-            <div class="title text-center d-flex align-items-center justify-content-center gap-3">
-                <span class="dots bg-warning "></span>
-                <h5>خدماتنا</h5>
-                <span class="dots bg-warning "></span>
-            </div>
-            <div class="serviceBox row p-0 m-0">
-                <div class="col-4 m-0 row text-center">
-                    <div>
-                        <i class="bi bi-signpost-fill fs-2 text-warning"></i>
-                        <small><b>إلى عامودا</b></small>
-                        <small class="service_desc">خدمة إلى عامودا والمناطق</small>
-                    </div>
-                </div>
-                <div class="col-4 m-0  row text-center">
-                    <div>
-                    <i class="bi bi-signpost-2-fill fs-2 text-warning"></i>
-                    <small><b>إلى الحسكة</b></small>
-                    <small class="service_desc">رحلات إلى مركز المحافظة</small>
-                    </div>
-                </div>
-                <div class="col-4 m-0  row text-center">
-                    <div>
-                    <i class="bi bi-geo-alt-fill fs-2 text-warning"></i>
-                    <small><b>داخل القامشلي</b></small>
-                    <small class="service_desc">تنقل داخل المدينة</small>
-                    </div>
-                </div>
-                <div class="col-4 m-0 row text-center">
-                    <div>
-                    <i class="bi bi-airplane-fill fs-2 text-warning"></i>
-                    <small><b>استقبال حسب الطلب</b></small>
-                    <small class="service_desc">من وإلى المطار</small>
-                    </div>
-                </div>
-                <div class="col-4 m-0text-center">
-                    <div>
-                    <i class="bi bi-people-fill fs-2 text-warning"></i>
-                    <small><b>رحلات خاصة</b></small>
-                    <small class="service_desc">للمناسبات والرحلات الخاصة</small>
-                    </div>
-                </div>
-                <div class="col-4 m-0 row text-center">
-                    <div>
-                    <i class="bi bi-buildings-fill fs-2 text-warning"></i>
-                    <small><b>إلى الدراسية</b></small>
-                    <small class="service_desc">رحلات إلى الدراسية</small>
-                    </div>
-                </div>
-                
-            </div>
-            
-            <form action="/book" id="bookForm" class="my-5" method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                <h4 class="text-center text-light p-2 pb-4">أحجز طبلك</h4>
-                {% if not booking_enabled %}
-                <p class="booking-unavailable" role="alert">{{ availability_message }}</p>
-                {% endif %}
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
-                    <input type="text" name="name" class="form-control" placeholder="الأسم" {% if message and message[0].strip()!=""%}  value="{{message[0]}}" {% endif %} >
-                </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone"></i></span>
-                    <input type="tel" name="phone" class="form-control" placeholder="رقم الهاتف"   {% if message and message[1].strip()!=""%} value="{{message[1]}}" {% endif %}>
-                </div>
-
-                <div class="booking-map-section mb-3">
-                    <div class="map-instructions">
-                        <span>اختر نقطة الانطلاق ثم الوجهة من الخريطة</span>
-                        <div class="location-mode" role="group" aria-label="نوع الموقع الذي سيتم اختياره">
-                            <button type="button" class="btn btn-sm location-mode-button active" data-location-mode="pickup">نقطة الانطلاق</button>
-                            <button type="button" class="btn btn-sm location-mode-button" data-location-mode="destination">الوجهة</button>
-                        </div>
-                    </div>
-                    <div id="bookingMap" aria-label="خريطة اختيار نقطة الانطلاق والوجهة" data-bookings-enabled="{{ booking_enabled|tojson }}" data-service-latitude="{{ service_area.center_latitude }}" data-service-longitude="{{ service_area.center_longitude }}" data-service-radius="{{ service_area.radius_km }}"></div>
-                    <p id="mapStatus" class="map-status" role="status">اضغط على الخريطة لتحديد نقطة الانطلاق.</p>
-                    <div id="mapError" class="map-error d-none" role="alert"></div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="input-group col">
-                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-cursor"></i></span>
-                        <input type="text" name="fromPlace" id="fromPlace" class="form-control" placeholder="نقطة الانطلاق من الخريطة" readonly required {% if message and message[2].strip()!=""%} value="{{message[2]}}" {% endif %}>
-                    </div>
-                    <div class="input-group col">
-                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt"></i></span>
-                        <input type="text" name="toPlace" id="toPlace" class="form-control" placeholder="الوجهة من الخريطة" readonly required {% if message and message[3].strip()!=""%} value="{{message[3]}}" {% endif %}>
-                    </div>
-                </div>
-                <input type="hidden" name="pickup_latitude" id="pickupLatitude">
-                <input type="hidden" name="pickup_longitude" id="pickupLongitude">
-                <input type="hidden" name="destination_latitude" id="destinationLatitude">
-                <input type="hidden" name="destination_longitude" id="destinationLongitude">
-                <input type="hidden" name="distance_km" id="distanceKm">
-                <input type="hidden" name="estimated_time" id="estimatedTime">
-                <input type="hidden" name="estimated_fare" id="estimatedFare">
-
-                <div id="bookingSummary" class="booking-summary d-none" aria-live="polite">
-                    <h6>ملخص الرحلة</h6>
-                    <p><strong>الانطلاق:</strong> <span id="summaryPickup">-</span></p>
-                    <p><strong>الوجهة:</strong> <span id="summaryDestination">-</span></p>
-                    <p><strong>المسافة:</strong> <span id="summaryDistance">-</span></p>
-                    <p><strong>الوقت التقديري:</strong> <span id="summaryTime">-</span></p>
-                    <p><strong>الأجرة التقديرية:</strong> <span id="summaryFare">-</span></p>
-                </div>
-
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
-                    <input type="datetime-local" name="day" class="form-control" placeholder="وقت الرحلة"   {% if message and message[4].strip()!=""%} value="{{message[4]}}" {% endif %}>
-                </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-pen"></i></span>
-                    <textarea type="text" name="note" class="form-control" placeholder="ملاحظات اضافية(اختياري)">  {% if message and message[5].strip()!=""%} {{message[5]}} {% endif %}</textarea> 
-                </div>
-                <button class="btn btn-warning col-12 bookBtn  position-relative" {% if not booking_enabled %}disabled{% endif %}><i class="bi bi-send-fill text-dark"></i>
-                    <b class="col-9 p-0 m-0 text-dark">
-                    ارسال الطلب
-                    </b>
-                
-                <img src="../static/image/carBtn.png" alt="" class="carBtn position-absolute "></button>
-            </form>
-        </section>
-        <section>
-            <div class="whyUs">
-                <div class="title text-center d-flex align-items-center justify-content-center gap-3">
-                    <span class="dots bg-warning "></span>
-                    <h5>لماذا تختارنا؟</h5>
-                    <span class="dots bg-warning "></span>
-                </div>
-                <div class="row p-0 m-0">
-                    <div class="col-6 col-md-3 col-lg-3 p-2 m-0 my-2">
-                        <div class="row p-0 m-0 text-center">
-                            <div class="iconBorder col-12 p-0">
-                                <i class="bi bi-person-fill  fs-2 text-warning"></i>
-                            </div>
-                            <small class="col-12 p-0"><b>سائقون محترفون</b></small>
-                            <small class="col-12 p-0">خبرة طويلة وخدمة احترافية</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3  col-lg-3  p-2 m-0 my-2">
-                        <div class="row p-0 m-0 text-center">
-                            <div class="iconBorder col-12 p-0">
-                                <i class="bi bi-car-front-fill fs-2 text-warning"></i>
-                            </div>
-                            <small class="col-12 p-0"><b>سيارات نظيفة</b></small>
-                            <small class="col-12 p-0">مريحة ونظيفة دائمًا</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 col-lg-3 p-2 m-0 my-2">
-                        <div class="row p-0 m-0 text-center">
-                            <div class="iconBorder col-12 p-0">
-                                <i class="bi bi-clock-history fs-2 text-warning"></i>
-                            </div>
-                            <small class="col-12 p-0"><b>متوفر 24/7</b></small>
-                            <small class="col-12 p-0">في خدمتكم طوال اليوم</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 col-lg-3 p-2 m-0 my-2">
-                        <div class="row p-0 m-0 text-center">
-                            <div class="iconBorder col-12 p-0">
-                                <i class="bi bi-shield-shaded fs-2 text-warning"></i>
-                            </div>
-                            <small class="col-12 p-0"><b>أمان وموثوقية</b></small>
-                            <small class="col-12 p-0">رحلتك بأمان من البداية حتى النهاية</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-        <section>
-            <div id="mapService" class="row ">
-                <div class="col-6 text-center">
-                    <h5>منطقة الخدمة</h5>
-                    <small>القامشلي وجميع مناطق محافظة الحسكة</small>
-                </div>
-                <div class="col-6">
-                    <img src="{{url_for('static', filename='image/mapService.png')}}" alt="map">
-                </div>
-            </div>
-        </section>
-        <section id="aboutUs">
-            <div class="row m-0 justify-content-center align-items-centerf">
-                <div class="col-6 mb-3">
-                    <h5><b>
-                        عن الخدمة
-                    </b></h5>
-                    <small>
-                       خدمة توصيل آمنة وسريعة داخل القامشلي
-                        وجميع مناطق محافظة الحسكة.
-                        نلتزم بالمواعيد وراحة العملاء.
-                        متوفرون لخدمتكم على مدار 24 ساعة.
-                    </small>
-                </div>
-                <!-- <div class="col-6 mb-3">
-                    <h5 class="mb-3">
-                        <b>تواصل معنا</b>
-                    </h5>
-                    <p><i class="bi bi-whatsapp"></i><span style="direction: ltr; display: inline-block; padding: 0 6px;"> +1 403 588 9164</span></p>
-                    <p><i class="bi bi-geo-alt text-warning"></i>القامشلي - محافظة الحسكة</p>
-                </div> -->
-                <div class="col-6 mb-3">
-                    <h5><b>تابعنا</b></h5>
-                    <div class="row m-0 align-items-center justify-content-center">
-                        <div class="p-0 m-0 col-3">
-                            <a href="https://wa.me/14035889164?text=مرحباً،%20أرغب%20بحجز%20سيارة." target="_blank" class=" text-success">
-                                <i class="bi bi-whatsapp fs-1"></i> 
-                            </a>
-                        </div>
-                         <div class="p-0 m-0 col-3">
-                            <a href="#">
-                                <i class="bi bi-facebook  fs-1" style="color:#0A65FE;"></i>
-                            </a>
-                        </div>
-                         <div class="p-0 m-0 col-3">
-                            <a href="https://www.instagram.com/taxi.aman1?igsh=dXMza2IwdHhldDFp">
-                                <i class="bi bi-instagram fs-1 " style="color: #E35D6A;"></i>
-                            </a>
-                        </div>
-                         <div class="p-0 m-0 col-3">
-                            <a href="https://t.me/TaxiQamishli_bot?start=booking"  target="_blank">
-                                <i class="bi bi-telegram fs-1" style="color: #2EA6DA;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<body>
+<header class="app-header"><a href="/" class="brand"><i class="bi bi-taxi-front-fill"></i> تاكسي أمان</a><a href="https://wa.me/14035889164?text=مرحباً،%20أرغب%20بحجز%20سيارة." target="_blank" class="whatsapp" aria-label="الحجز عبر واتساب"><i class="bi bi-whatsapp"></i></a></header>
+{% with messages = get_flashed_messages() %}{% for message in messages %}<p class="flash" role="alert">{{ message }}</p>{% endfor %}{% endwith %}
+<form action="/book" method="post" id="bookForm" class="booking-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input type="hidden" name="fromPlace" id="fromPlace"><input type="hidden" name="toPlace" id="toPlace">
+    <input type="hidden" name="pickup_latitude" id="pickupLatitude"><input type="hidden" name="pickup_longitude" id="pickupLongitude">
+    <input type="hidden" name="destination_latitude" id="destinationLatitude"><input type="hidden" name="destination_longitude" id="destinationLongitude">
+    <input type="hidden" name="distance_km" id="distanceKm"><input type="hidden" name="estimated_time" id="estimatedTime"><input type="hidden" name="estimated_fare" id="estimatedFare">
+    <input type="hidden" name="day" id="bookingDay">
+    <main id="bookingDetails" class="details-screen d-none">
+        <ol class="progress-steps"><li class="complete">الوجهة</li><li class="complete">الانطلاق</li><li class="complete">الرحلة</li><li class="active">التأكيد</li></ol>
+        <section class="trip-card"><h1>تفاصيل الحجز</h1><div class="trip-location"><i class="bi bi-geo-alt-fill pickup"></i><span><b>مكان الانطلاق</b><small id="detailPickup">-</small></span><button type="button" data-edit-location="pickup">تعديل</button></div><div class="trip-location"><i class="bi bi-flag-fill destination"></i><span><b>الوجهة</b><small id="detailDestination">-</small></span><button type="button" data-edit-location="destination">تعديل</button></div><div class="time-choice"><h2>متى تريد التاكسي؟</h2><button type="button" class="time-button active" data-time="now"><i class="bi bi-lightning-charge-fill"></i> الآن</button><button type="button" class="time-button" data-time="later"><i class="bi bi-calendar3"></i> لاحقاً</button><input id="laterDateTime" type="datetime-local" class="d-none" aria-label="التاريخ والوقت"></div></section>
+        <section id="finalSummary" class="trip-card d-none"><h2>ملخص الرحلة</h2><p><span>المسافة</span><b id="finalDistance">-</b></p><p><span>المدة المتوقعة</span><b id="finalDuration">-</b></p><p class="total"><span>التكلفة التقديرية</span><b id="finalFare">-</b></p></section>
+        <section id="contactFields" class="trip-card d-none"><h2>بيانات التواصل</h2><label>الاسم<input name="name" type="text" required></label><label>رقم الهاتف<input name="phone" type="tel" required></label><label>ملاحظات إضافية<textarea name="note" placeholder="اختياري"></textarea></label></section>
+        <button id="submitBooking" class="primary-action d-none" type="submit">تأكيد الحجز</button>
     </main>
-<footer>
-    <div class="text-center">
-        <small>
-            © <span id="year">2024</span>  
-            جميع الحقوق محفوظة
-        </small>
+</form>
+<section id="mapFlow" class="map-flow" role="dialog" aria-modal="true" aria-label="اختيار مواقع الرحلة">
+    <header class="map-header"><button type="button" id="mapBack" class="icon-button" aria-label="رجوع"><i class="bi bi-arrow-right"></i></button><div><p id="mapStep">1 من 4</p><h1 id="mapTitle">حدد الوجهة</h1></div></header>
+    <ol class="progress-steps map-progress"><li id="destinationProgress" class="active">الوجهة</li><li id="pickupProgress">الانطلاق</li><li id="routeProgress">الرحلة</li><li>التأكيد</li></ol>
+    <div id="mapTools" class="map-tools"><label><i class="bi bi-search"></i><input id="locationSearch" type="search" placeholder="ابحث عن موقع" aria-label="ابحث عن موقع"></label><button type="button" id="currentLocation" class="icon-button" aria-label="استخدام موقعي الحالي"><i class="bi bi-crosshair"></i></button></div>
+    <ul id="searchResults" class="search-results d-none"></ul>
+    <div class="map-wrap"><div id="bookingMap" data-bookings-enabled="{{ booking_enabled|tojson }}" data-service-latitude="{{ service_area.center_latitude }}" data-service-longitude="{{ service_area.center_longitude }}" data-service-radius="{{ service_area.radius_km }}"></div></div>
+    <section id="mapPanel" class="map-panel"><p id="mapNotice">اضغط على الخريطة لتحديد الوجهة.</p><p id="mapError" class="map-error d-none" role="alert"></p><button type="button" id="confirmLocation" class="primary-action" disabled>تأكيد الوجهة</button></section>
+    <section id="routePanel" class="route-panel d-none"><div class="route-locations"><div><span>📍 مكان الانطلاق</span><b id="routePickup">-</b><button type="button" data-edit-location="pickup">تعديل</button></div><div><span>🏁 الوجهة</span><b id="routeDestination">-</b><button type="button" data-edit-location="destination">تعديل</button></div></div><div class="route-metrics"><div><span>المسافة</span><b id="routeDistance">-</b></div><div><span>المدة المتوقعة</span><b id="routeDuration">-</b></div><div class="fare"><span>التكلفة التقديرية</span><b id="routeFare">-</b></div></div><button type="button" id="continueBooking" class="primary-action">تأكيد الرحلة والمتابعة</button></section>
+</section>
+<div id="sendingLoad" class="sending-load d-none">جاري إرسال الحجز...</div>
+</div>
+<footer class="site-footer">
+    <div class="footer-content">
+        <section class="footer-about"><h2>عن الخدمة</h2><p>خدمة توصيل آمنة وسريعة داخل القامشلي وجميع مناطق محافظة الحسكة. نلتزم بالمواعيد وراحة العملاء. متوفرون لخدمتكم على مدار 24 ساعة.</p></section>
+        <section class="footer-social"><h2>تابعنا</h2><div class="social-links"><a href="https://t.me/TaxiQamishli_bot?start=booking" target="_blank" aria-label="تيليجرام"><i class="bi bi-telegram"></i></a><a href="https://www.instagram.com/taxi.aman1?igsh=dXMza2IwdHhldDFp" target="_blank" aria-label="إنستغرام"><i class="bi bi-instagram"></i></a><a href="#" aria-label="فيسبوك"><i class="bi bi-facebook"></i></a><a href="https://wa.me/14035889164?text=مرحباً،%20أرغب%20بحجز%20سيارة." target="_blank" aria-label="واتساب"><i class="bi bi-whatsapp"></i></a></div></section>
     </div>
+    <p class="footer-copyright">© <span id="footerYear"></span> جميع الحقوق محفوظة</p>
 </footer>
-
-<script>
-    var year = document.getElementById("year");
-    var currentYear = new Date().getFullYear()
-    year.textContent =currentYear
-    {% if message %}
-    const message = {{message|tojson}};
-    for(i=0; i < message.length; i++){
-        if(message[i] == ""){
-            document.querySelectorAll("#bookForm input:not([type='hidden'])")[i].focus();
-            break
-        }
-        
-    }
-    {% endif %}
-
-    if (document.getElementById("flashes")){
-        document.getElementById("flashes").style.right="0";
-        setTimeout(function(){
-document.getElementById("flashes").style.right="-100%";
-setTimeout(function(){
-document.getElementById("flashes").remove();
-}, 700)
-        }, 5000)
-    }
-</script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin=""></script>
-    <script src="../static/js/js.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin=""></script>
+<script src="{{ url_for('static', filename='js/js.js') }}"></script>
 </body>
 </html>
